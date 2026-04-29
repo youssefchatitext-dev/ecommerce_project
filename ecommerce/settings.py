@@ -3,6 +3,7 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+<<<<<<< HEAD
 
 def load_env_file(env_path):
     if not env_path.exists():
@@ -28,6 +29,8 @@ def env_value(key, default=None):
     value = value.strip()
     return value if value else default
 
+=======
+>>>>>>> f81f612207979a3dec3531f73deb3ea7a70a8c73
 SECRET_KEY = 'django-insecure-votre-cle-ici'
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -40,7 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'products',
+<<<<<<< HEAD
     'accounts',
+=======
+>>>>>>> f81f612207979a3dec3531f73deb3ea7a70a8c73
 ]
 
 MIDDLEWARE = [
@@ -96,6 +102,7 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
+<<<<<<< HEAD
 LOGIN_REDIRECT_URL = 'product_list'
 LOGOUT_REDIRECT_URL = 'product_list'
 LOGIN_URL = 'login'
@@ -112,4 +119,6 @@ else:
 
 DEFAULT_FROM_EMAIL = env_value('DEFAULT_FROM_EMAIL', 'no-reply@emi-shop.local')
 
+=======
+>>>>>>> f81f612207979a3dec3531f73deb3ea7a70a8c73
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

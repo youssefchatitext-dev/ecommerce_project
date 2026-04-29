@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'layout.html' %}
 
 {% block title %}{{ product.name }}{% endblock %}
@@ -37,3 +38,14 @@
 </div>
 </section>
 {% endblock %}
+=======
+<h1>{{ product.name }}</h1>
+{% if product.image %}
+    <img src="{{ product.image.url }}" width="250" alt="{{ product.name }}">
+{% endif %}
+<p><strong>Description:</strong> {{ product.description }}</p>
+<p><strong>Prix :</strong> {{ product.price }} €</p>
+<p><strong>Stock :</strong> {{ product.stock }}</p>
+<p><strong>Catégorie :</strong> <a href="{% url 'category_detail' product.category.id %}">{{ product.category.name }}</a></p>
+<a href="{% url 'product_list' %}">Retour à la liste des produits</a>
+>>>>>>> f81f612207979a3dec3531f73deb3ea7a70a8c73

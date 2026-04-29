@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'layout.html' %}
 
 {% block title %}Categories{% endblock %}
@@ -32,3 +33,12 @@
 {% endif %}
 </section>
 {% endblock %}
+=======
+<h1>Catégories</h1>
+<ul>
+{% for category in categories %}
+    <li><a href="{% url 'category_detail' category.id %}">{{ category.name }}</a></li>
+{% endfor %}
+</ul>
+<a href="{% url 'product_list' %}">Voir les produits</a>
+>>>>>>> f81f612207979a3dec3531f73deb3ea7a70a8c73

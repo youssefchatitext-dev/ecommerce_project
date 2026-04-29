@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'layout.html' %}
 
 {% block title %}Nos Produits{% endblock %}
@@ -36,10 +37,27 @@
                 <button class="button-link" type="submit">Ajouter au panier</button>
             </form>
         </div>
+=======
+<h1>Nos Produits</h1>
+<a href="{% url 'category_list' %}">Voir les catégories</a>
+<ul>
+{% for product in products %}
+    <li>
+        <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+        <p>Prix: {{ product.price }} €</p>
+        <p>Catégorie: <a href="{% url 'category_detail' product.category.id %}">{{ product.category.name }}</a></p>
+        {% if product.image %}
+            <img src="{{ product.image.url }}" width="150" alt="{{ product.name }}">
+        {% endif %}
+>>>>>>> f81f612207979a3dec3531f73deb3ea7a70a8c73
     </li>
 {% empty %}
     <p>Aucun produit disponible.</p>
 {% endfor %}
+<<<<<<< HEAD
 </ul>
 </section>
 {% endblock %}
+=======
+</ul>
+>>>>>>> f81f612207979a3dec3531f73deb3ea7a70a8c73
