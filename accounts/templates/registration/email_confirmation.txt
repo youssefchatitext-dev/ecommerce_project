@@ -1,0 +1,8 @@
+Bonjour {{ user.username }},
+
+Merci de confirmer votre adresse email pour {{ site_name }}.
+
+Ouvrez ce lien :
+{{ confirm_url }}
+
+Si vous n'etes pas a l'origine de cette demande, ignorez simplement ce message.

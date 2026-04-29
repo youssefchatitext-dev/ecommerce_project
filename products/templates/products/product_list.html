@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title %}Nos Produits{% endblock %}
+
+{% block content %}
+<section class="panel stack">
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Collection</p>
+        <h1>Nos Produits</h1>
+    </div>
+    <a class="button-link" href="{% url 'category_list' %}">Voir les categories</a>
+</div>
+<ul class="product-grid">
+{% for product in products %}
+    <li class="product-card">
+        <div class="product-card-main">
+            {% if product.image %}
+                <img class="product-image product-thumb" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="product-image product-thumb placeholder-media">Apercu produit</div>
+            {% endif %}
+            <div class="card-copy">
+                <p class="eyebrow">Produit</p>
+                <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+                <p class="meta">{{ product.description|truncatechars:110 }}</p>
+                <p class="price">{{ product.price }} EUR</p>
+                <p class="meta">Categorie: <a href="{% url 'category_detail' product.category.id %}">{{ product.category.name }}</a></p>
+            </div>
+        </div>
+        <div class="card-actions">
+            <a class="ghost-link" href="{% url 'product_detail' product.id %}">Voir le produit</a>
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'product_list' %}">
+                <button class="button-link" type="submit">Ajouter au panier</button>
+            </form>
+        </div>
+    </li>
+{% empty %}
+    <p>Aucun produit disponible.</p>
+{% endfor %}
+</ul>
+</section>
+{% endblock %}

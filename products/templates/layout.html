@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Boutique{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'products/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="shell">
+            <nav class="site-nav" aria-label="Navigation principale">
+                <a class="brand" href="{% url 'product_list' %}">EMI Shop</a>
+                <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Afficher le menu">
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="nav-menu" id="nav-menu">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'product_list' %}is-active{% endif %}" href="{% url 'product_list' %}">Accueil</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'category_list' %}is-active{% endif %}" href="{% url 'category_list' %}">Categories</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}is-active{% endif %}" href="{% url 'cart' %}">Panier <span class="nav-count">{{ cart_count }}</span></a>
+                    {% if request.user.is_authenticated %}
+                    <a class="nav-link {% if request.resolver_match.url_name == 'profile' or request.resolver_match.url_name == 'edit_profile' or request.resolver_match.url_name == 'password_change' %}is-active{% endif %}" href="{% url 'profile' %}">Mon profil</a>
+                    {% if request.user.is_staff %}
+                    <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+                    {% endif %}
+                    <span class="nav-link">Bonjour, {{ request.user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button class="nav-link nav-button" type="submit">Deconnexion</button>
+                    </form>
+                    {% else %}
+                    <a class="nav-link {% if request.resolver_match.url_name == 'login' %}is-active{% endif %}" href="{% url 'login' %}">Connexion</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'signup' %}is-active{% endif %}" href="{% url 'signup' %}">Creer un compte</a>
+                    {% endif %}
+                </div>
+            </nav>
+            <section class="hero">
+                <p class="eyebrow">Boutique en ligne</p>
+                <h1>Acheter de produits de bon qualite.</h1>
+                <p class="hero-copy">Made by Youssef CHATIT.</p>
+            </section>
+        </div>
+    </header>
+    <main class="shell page-content">
+       {% if messages %}
+       <section class="flash-stack">
+           {% for message in messages %}
+           <article class="flash-message {{ message.tags }}">{{ message }}</article>
+           {% endfor %}
+       </section>
+       {% endif %}
+       {% block content %}
+       {% endblock %}
+    </main>
+    <footer class="site-footer">
+        <div class="shell footer-inner">
+            <p>Copyright EMI 2026</p>
+            <a href="{% url 'product_list' %}">Retour a l'accueil</a>
+        </div>
+    </footer>
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', String(!isExpanded));
+                navMenu.classList.toggle('is-open');
+            });
+        }
+    </script>
+</body>
+</html>

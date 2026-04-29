@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<section class="panel stack">
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Categorie</p>
+        <h1>{{ category.name }}</h1>
+        <p class="meta">{{ category.description|default:"Parcourez les articles de cette categorie." }}</p>
+    </div>
+    <a class="button-link" href="{% url 'category_list' %}">Retour aux categories</a>
+</div>
+<ul class="product-grid">
+{% for product in products %}
+    <li class="product-card">
+        {% if product.image %}
+            <img class="product-image product-thumb" src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <div class="product-image product-thumb placeholder-media">Image produit</div>
+        {% endif %}
+        <div class="card-copy">
+            <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+            <p class="meta">{{ product.description|truncatechars:90 }}</p>
+            <p class="price">{{ product.price }} EUR</p>
+        </div>
+        <div class="card-actions">
+            <a class="ghost-link" href="{% url 'product_detail' product.id %}">Details</a>
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'category_detail' category.id %}">
+                <button class="button-link" type="submit">Ajouter</button>
+            </form>
+        </div>
+    </li>
+{% empty %}
+    <p>Aucun produit dans cette categorie.</p>
+{% endfor %}
+</ul>
+{% if request.user.is_staff %}
+<div class="admin-actions">
+    <a class="admin-link" href="{% url 'admin:products_product_add' %}">Ajouter un produit</a>
+    <a class="admin-link" href="{% url 'admin:products_category_change' category.id %}">Modifier la categorie</a>
+</div>
+{% endif %}
+</section>
+{% endblock %}

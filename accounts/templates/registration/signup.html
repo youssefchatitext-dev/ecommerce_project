@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Creer un compte{% endblock %}
+
+{% block content %}
+<section class="panel auth-layout">
+    <div class="auth-copy">
+        <p class="eyebrow">Inscription</p>
+        <h1>Creer votre compte</h1>
+        <p class="meta">Inscrivez-vous pour acceder a votre profil, changer votre mot de passe et confirmer votre adresse Gmail.</p>
+    </div>
+    <div class="auth-card">
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            <h3>Creation de compte</h3>
+            {{ form.as_p }}
+            <button class="button-link" type="submit">Creer mon compte</button>
+        </form>
+        <p class="meta">Vous avez deja un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
+    </div>
+</section>
+{% endblock %}

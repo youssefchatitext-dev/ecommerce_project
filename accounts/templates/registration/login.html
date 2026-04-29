@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<section class="panel auth-layout">
+    <div class="auth-copy">
+        <p class="eyebrow">Connexion</p>
+        <h1>Accedez a votre espace</h1>
+        <p class="meta">Connectez-vous pour consulter votre profil et poursuivre votre experience e-commerce.</p>
+    </div>
+    <div class="auth-card">
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            <h3>Se connecter</h3>
+            {% if form.non_field_errors %}
+            <div class="form-errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+            <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
+            {{ form.username }}
+            <label for="{{ form.password.id_for_label }}">Mot de passe</label>
+            {{ form.password }}
+            <button class="button-link" type="submit">Connexion</button>
+        </form>
+        <p class="meta">Pas encore de compte ? <a href="{% url 'signup' %}">Creer un compte</a></p>
+        <p class="meta">Apres connexion, vous serez redirige vers la liste des produits.</p>
+    </div>
+</section>
+{% endblock %}

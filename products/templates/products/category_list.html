@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<section class="panel stack">
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">Navigation</p>
+        <h1>Categories</h1>
+    </div>
+    <a class="button-link" href="{% url 'product_list' %}">Voir les produits</a>
+</div>
+<ul class="category-grid">
+{% for category in categories %}
+    <li class="category-card">
+        <p class="eyebrow">Categorie</p>
+        <h3><a href="{% url 'category_detail' category.id %}">{{ category.name }}</a></h3>
+        <p class="meta">{{ category.description|default:"Une selection de produits a decouvrir."|truncatechars:120 }}</p>
+        <p class="meta">{{ category.product_count }} produit{{ category.product_count|pluralize }}</p>
+        <div class="card-actions">
+            <a class="ghost-link" href="{% url 'category_detail' category.id %}">Explorer</a>
+            {% if request.user.is_staff %}
+            <a class="admin-link" href="{% url 'admin:products_category_change' category.id %}">Modifier</a>
+            {% endif %}
+        </div>
+    </li>
+{% endfor %}
+</ul>
+{% if request.user.is_staff %}
+<a class="admin-link" href="{% url 'admin:products_category_add' %}">Ajouter une categorie</a>
+{% endif %}
+</section>
+{% endblock %}

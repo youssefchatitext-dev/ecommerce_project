@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block title %}Modifier le profil{% endblock %}
+
+{% block content %}
+<section class="panel auth-layout">
+    <div class="auth-copy">
+        <p class="eyebrow">Profil</p>
+        <h1>Modifier vos informations</h1>
+        <p class="meta">Mettez a jour votre nom, votre pseudo et votre adresse email.</p>
+        {% if profile_state.email_verified %}
+        <p class="meta">Email confirme.</p>
+        {% else %}
+        <p class="meta">Email non confirme. Pensez a verifier votre boite Gmail.</p>
+        {% endif %}
+    </div>
+    <div class="auth-card">
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            <h3>Mettre a jour le profil</h3>
+            {{ form.as_p }}
+            <button class="button-link" type="submit">Enregistrer</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}Confirmation requise{% endblock %}
+
+{% block content %}
+<section class="panel auth-layout">
+    <div class="auth-copy">
+        <p class="eyebrow">Confirmation email</p>
+        <h1>Verifiez votre boite mail</h1>
+        <p class="meta">Votre compte n'est pas encore cree. Il sera cree uniquement apres clic sur le lien de confirmation.</p>
+        {% if pending_signup_email %}
+        <p class="meta">Adresse en attente : {{ pending_signup_email }}</p>
+        {% endif %}
+    </div>
+    <div class="auth-card">
+        <h3>Etapes suivantes</h3>
+        <p class="meta">1. Ouvrez le mail recu.</p>
+        <p class="meta">2. Cliquez sur le lien de confirmation.</p>
+        <p class="meta">3. Votre compte sera alors cree et vous serez connecte automatiquement.</p>
+        <form method="post" action="{% url 'resend_signup_confirmation' %}" class="auth-form">
+            {% csrf_token %}
+            <button class="button-link" type="submit">Renvoyer le mail</button>
+        </form>
+        <p class="meta">Si aucun mail n'arrive, verifiez le dossier spam ou la configuration Gmail du projet.</p>
+    </div>
+</section>
+{% endblock %}

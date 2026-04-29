@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<section class="panel product-hero">
+<div class="product-visual">
+    {% if product.image %}
+    <img class="product-image detail-image" src="{{ product.image.url }}" width="250" alt="{{ product.name }}">
+    {% else %}
+    <div class="product-image detail-image placeholder-media">Image indisponible</div>
+    {% endif %}
+</div>
+<div class="product-info stack">
+    <p class="eyebrow">Fiche produit</p>
+    <h1>{{ product.name }}</h1>
+    <p class="lead">{{ product.description }}</p>
+    <div class="info-grid">
+        <p class="meta"><strong>Prix :</strong> {{ product.price }} EUR</p>
+        <p class="meta"><strong>Stock :</strong> {{ product.stock }}</p>
+        <p class="meta"><strong>Categorie :</strong> <a href="{% url 'category_detail' product.category.id %}">{{ product.category.name }}</a></p>
+    </div>
+    <div class="card-actions">
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'product_detail' product.id %}">
+            <button class="button-link" type="submit">Ajouter au panier</button>
+        </form>
+        <a class="ghost-link" href="{% url 'product_list' %}">Retour a la liste des produits</a>
+    </div>
+    {% if request.user.is_staff %}
+    <div class="admin-actions">
+        <a class="admin-link" href="{% url 'admin:products_product_add' %}">Ajouter un produit</a>
+        <a class="admin-link" href="{% url 'admin:products_product_change' product.id %}">Modifier ce produit</a>
+    </div>
+    {% endif %}
+</div>
+</section>
+{% endblock %}

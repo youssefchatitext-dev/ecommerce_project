@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block content %}
+<section class="panel stack">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Profil</p>
+            <h1>Mon profil</h1>
+        </div>
+        <a class="button-link" href="{% url 'product_list' %}">Retour aux produits</a>
+    </div>
+    <p class="meta">Cette page est protegee et accessible uniquement aux utilisateurs connectes.</p>
+    <div class="profile-grid">
+        <article class="category-card">
+            <p class="eyebrow">Compte</p>
+            <h3>{{ user.username }}</h3>
+            <p class="meta">Prenom : {{ user.first_name|default:"Non renseigne" }}</p>
+            <p class="meta">Nom : {{ user.last_name|default:"Non renseigne" }}</p>
+            <p class="meta">Email : {{ user.email|default:"Non renseigne" }}</p>
+            <p class="meta">Email confirme :
+                {% if profile_state.email_verified %}Oui{% else %}Non{% endif %}
+            </p>
+            <p class="meta">Staff : {{ user.is_staff }}</p>
+            <p class="meta">Superutilisateur : {{ user.is_superuser }}</p>
+        </article>
+        <article class="category-card">
+            <p class="eyebrow">Actions</p>
+            <h3>Gerer votre compte</h3>
+            <div class="card-actions">
+                <a class="button-link" href="{% url 'edit_profile' %}">Modifier le profil</a>
+                <a class="ghost-link" href="{% url 'password_change' %}">Changer le mot de passe</a>
+            </div>
+            {% if not profile_state.email_verified %}
+            <form method="post" action="{% url 'resend_confirmation_email' %}">
+                {% csrf_token %}
+                <button class="admin-button" type="submit">Renvoyer l'email de confirmation</button>
+            </form>
+            {% endif %}
+        </article>
+    </div>
+</section>
+{% endblock %}

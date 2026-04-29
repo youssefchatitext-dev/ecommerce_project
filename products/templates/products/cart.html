@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block content %}
+<section class="panel stack">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Panier</p>
+            <h1>Vos selections</h1>
+        </div>
+        <a class="button-link" href="{% url 'product_list' %}">Continuer les achats</a>
+    </div>
+    {% if cart_items %}
+    <div class="cart-list">
+        {% for item in cart_items %}
+        <article class="cart-item">
+            <div class="cart-copy">
+                <h3><a href="{% url 'product_detail' item.product.id %}">{{ item.product.name }}</a></h3>
+                <p class="meta">{{ item.product.category.name }}</p>
+                <p class="meta">Prix unitaire: {{ item.product.price }} EUR</p>
+                <p class="price">{{ item.subtotal }} EUR</p>
+            </div>
+            <form class="quantity-form" method="post" action="{% url 'update_cart_quantity' item.product.id %}">
+                {% csrf_token %}
+                <label for="qty-{{ item.product.id }}">Quantite</label>
+                <input id="qty-{{ item.product.id }}" type="number" name="quantity" min="0" max="{{ item.product.stock }}" value="{{ item.quantity }}">
+                <button class="ghost-button" type="submit">Mettre a jour</button>
+            </form>
+            <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+                {% csrf_token %}
+                <button class="admin-link admin-button" type="submit">Retirer</button>
+            </form>
+        </article>
+        {% endfor %}
+    </div>
+    <div class="cart-summary">
+        <p class="meta">Total</p>
+        <p class="price large">{{ cart_total }} EUR</p>
+    </div>
+    {% else %}
+    <section class="placeholder-card">
+        <h3>Votre panier est vide</h3>
+        <p class="meta">Ajoutez quelques produits pour commencer vos achats.</p>
+    </section>
+    {% endif %}
+</section>
+{% endblock %}
